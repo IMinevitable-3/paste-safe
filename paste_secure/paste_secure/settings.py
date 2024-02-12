@@ -2,17 +2,19 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from environ import SECRET_KEY, DEBUG
 
-SECRET_KEY = "django-insecure-1h9&no!=8fw!s95a(nej$j%4%2nr#sq@-n&x$r69a0t6v_zzn3"
+SECRET_KEY = SECRET_KEY
 
 
-DEBUG = True
+DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
     "rest_framework",
+    "pastes",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

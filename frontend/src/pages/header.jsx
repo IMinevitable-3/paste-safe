@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
 import "../assets/css/header.css";
 import { useConfig } from "../context/configContext";
+import axios from "axios";
+
 const ExpiryTime = () => {
   const { configuration, updateConfiguration } = useConfig();
   const [Time, setTime] = useState("");
 
   const handleSelectChange = (event) => {
     setTime(event.target.value);
-    updateConfiguration({ expiry_time: event.target.value });
+    updateConfiguration({ expiry_duration: event.target.value });
   };
 
   return (
@@ -73,8 +75,23 @@ const PasswordInput = () => {
 };
 const SendButton = () => {
   const { configuration, updateConfiguration } = useConfig();
-  const handleClick = () => {
+  const handleClick = async () => {
     console.log(configuration);
+
+    try {
+      const response = await axios.post(
+        getDataBasedOnENV("POST_URL"),
+        configuration
+      );
+
+      if (response.status === 200) {
+        console.log(response);
+      } else {
+        console.error(response);
+      }
+    } catch (error) {
+      console.error("Error sending POST request:", error);
+    }
   };
 
   return (

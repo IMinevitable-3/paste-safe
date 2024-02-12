@@ -4,8 +4,8 @@ export const ConfigContext = createContext();
 
 export const ConfigProvider = ({ children }) => {
   const initialConfiguration = {
-    expiry_time: "1 day",
-    document_format: "markdown",
+    expiry_duration: "1d",
+    document_format: "Markdown",
     password: null,
     text: null,
   };

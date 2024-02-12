@@ -14,7 +14,6 @@ export const Editor = ({ func }) => {
     if (quill) {
       quill.on("text-change", (delta, oldDelta, source) => {
         const Txt = quill.getText();
-        console.log(Txt);
         updateConfiguration({ text: Txt });
         func(Txt);
       });
