@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import PasteSerializer
+from .serializers import PasteSerializer, DisplayPasteSerializer
+from .models import Paste
 
 
 class PasteCreateView(APIView):
@@ -11,3 +12,16 @@ class PasteCreateView(APIView):
             instance = serializer.save()
             return Response({"slug": instance.slug}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasteRetrieveView(APIView):
+    def get(self, request, slug, *args, **kwargs):
+        try:
+            paste_instance = Paste.objects.get(slug=slug)
+        except Paste.DoesNotExist:
+            return Response(
+                {"detail": "Paste not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = DisplayPasteSerializer(paste_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)

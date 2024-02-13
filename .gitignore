@@ -16,7 +16,7 @@ media/
 
 # Virtual environment
 venv/
-.env
+# .env
 
 # Development-specific files
 *.sqlite3

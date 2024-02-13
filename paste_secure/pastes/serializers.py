@@ -40,3 +40,9 @@ class PasteSerializer(serializers.ModelSerializer):
         paste_instance.save()
 
         return paste_instance
+
+
+class DisplayPasteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Paste
+        fields = ["document_format", "text", "password"]
