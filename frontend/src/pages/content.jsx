@@ -1,29 +1,25 @@
-import { useEffect } from "react";
-import { useApi } from "../context/apiContext";
-export function ContentPage({ slug }) {
-  const { data, setData } = useApi();
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+export function ContentPage() {
+  const [apiData, setApiData] = useState(null);
+  const { slug } = useParams();
+  let apiUrl = `http://localhost:8000/api/pastes/?slug=${slug}`;
+  if (import.meta.env.PROD) {
+    apiUrl = import.meta.env.VITE_BASE_URL + `?slug=${slug}`;
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log(slug);
-        const response = await fetch(`http://localhost:8000/api/${slug}`);
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [slug, setData]);
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => setApiData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [apiUrl]);
 
   return (
     <div>
-      {data ? (
-        <div>
-          <h1>{data.text}</h1>
-        </div>
+      <h1>API Response:</h1>
+      {apiData ? (
+        <pre>{JSON.stringify(apiData, null, 2)}</pre>
       ) : (
         <p>Loading...</p>
       )}

@@ -7,7 +7,12 @@ import "quill/dist/quill.snow.css";
 import { PreviewLoader } from "./preview";
 
 export const Editor = ({ func }) => {
-  const { quill, quillRef } = useQuill();
+  const { quill, quillRef } = useQuill({
+    theme: "snow",
+    modules: {
+      toolbar: false,
+    },
+  });
   const { configuration, updateConfiguration } = useConfig();
 
   React.useEffect(() => {
@@ -20,11 +25,7 @@ export const Editor = ({ func }) => {
     }
   }, [quill]);
 
-  return (
-    <div>
-      <div ref={quillRef} />
-    </div>
-  );
+  return <div ref={quillRef} style={{ width: "100%", height: "100vh" }} />;
 };
 export const Parent = () => {
   const [Text, setText] = useState(null);

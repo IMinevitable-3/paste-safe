@@ -13,11 +13,9 @@ class PasteCreateView(APIView):
             return Response({"slug": instance.slug}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class PasteRetrieveView(APIView):
-    def get(self, request, slug, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
-            paste_instance = Paste.objects.get(slug=slug)
+            paste_instance = Paste.objects.get(slug=request.GET.get("slug"))
         except Paste.DoesNotExist:
             return Response(
                 {"detail": "Paste not found"}, status=status.HTTP_404_NOT_FOUND

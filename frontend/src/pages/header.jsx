@@ -79,12 +79,11 @@ const SendButton = () => {
     console.log(configuration);
 
     try {
-      const response = await axios.post(
-        getDataBasedOnENV("POST_URL"),
-        configuration
-      );
+      let POST_URL = "http://localhost:8000/api/pastes/";
+      if (import.meta.env.PROD) POST_URL = import.meta.env.VITE_BASE_URL;
+      const response = await axios.post(POST_URL, configuration);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log(response);
       } else {
         console.error(response);
