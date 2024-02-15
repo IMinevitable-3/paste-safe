@@ -44,7 +44,7 @@ pids
 *.pid
 
 # dotenv environment variables file
-.env
+# .env
 env
 
 # Compiled binary addons
