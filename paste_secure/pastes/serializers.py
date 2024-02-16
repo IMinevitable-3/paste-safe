@@ -45,4 +45,25 @@ class PasteSerializer(serializers.ModelSerializer):
 class DisplayPasteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paste
-        fields = ["document_format", "text", "password"]
+        fields = ["document_format", "text", "expiry_date"]
+
+
+class CheckPasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Paste
+        fields = ["password"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        password_is_null = instance.password is None
+
+        data["password"] = not password_is_null
+
+        return data
+
+
+class PasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Paste
+        fields = ["password"]
