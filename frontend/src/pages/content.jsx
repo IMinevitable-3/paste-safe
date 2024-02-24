@@ -18,6 +18,7 @@ export function ContentPage() {
     fetch(apiUrlCheck)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setApiData(data);
 
         if (data.password) {

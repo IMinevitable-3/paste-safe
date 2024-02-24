@@ -32,16 +32,21 @@ class PasteCreateView(APIView):
 
 class CheckPasswordView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = PasswordSerializer(data=request.data)
-        paste_instance = None
+
         try:
+            serializer = PasswordSerializer(data=request.data)
+            paste_instance = None
             paste_instance = Paste.objects.get(slug=request.GET.get("slug"))
         except Paste.DoesNotExist:
             return Response(
                 {"detail": "Paste not found"}, status=status.HTTP_404_NOT_FOUND
             )
         if serializer.is_valid():
-            if paste_instance.check_password(serializer.validated_data["password"]):
+            is_authentication = serializer.validated_data["password"]
+            if (
+                paste_instance.check_password(is_authentication)
+                or is_authentication == None
+            ):
                 serializer = DisplayPasteSerializer(paste_instance)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
