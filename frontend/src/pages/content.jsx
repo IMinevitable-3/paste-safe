@@ -1,51 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import axios from "axios";
 export function ContentPage() {
   const [apiData, setApiData] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
-  const apiUrlCheck = `http://localhost:8000/api/check/?slug=${slug}`;
-  const apiUrlPaste = `http://localhost:8000/api/paste/?slug=${slug}`;
+  let apiUrlCheck = `http://localhost:8000/api/check/?slug=${slug}`;
 
   useEffect(() => {
-    // Check if password is required
+    if (import.meta.env.PROD)
+      apiUrlCheck =
+        import.meta.env.VITE_BASE_URL +
+        import.meta.env.VITE_CHECK_PASSWORD +
+        `?slug=${slug}`;
     fetch(apiUrlCheck)
       .then((response) => response.json())
       .then((data) => {
         setApiData(data);
 
         if (data.password) {
-          // If there is a password required, stop loading to show password form
           setLoading(false);
         } else {
-          // If no password required, authenticate and fetch content directly
-          authenticateAndFetchContent(null); // Pass null as there's no password
+          authenticateAndFetchContent(null);
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [apiUrlCheck]);
 
-  const authenticateAndFetchContent = (enteredPassword) => {
-    const apiUrl =
-      apiUrlPaste + (enteredPassword ? `&password=${enteredPassword}` : "");
+  const authenticateAndFetchContent = async (Password) => {
+    try {
+      let apiUrl = apiUrlCheck;
+      if (import.meta.env.PROD)
+        apiUrl =
+          import.meta.env.VITE_BASE_URL +
+          import.meta.env.VITE_CHECK_PASSWORD +
+          `?slug=${slug}`;
+      const response = await axios.post(apiUrl, { password: Password });
 
-    // Fetch content with or without password
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        // Authentication successful, set isAuth and show content
+      if (response.status === 200) {
+        console.log(response);
+        const data = response.data;
         setIsAuth(true);
         setLoading(false);
         setApiData(data);
-      })
-      .catch((error) => {
-        // Authentication failed or other error
-        console.error("Error fetching content:", error);
-        setLoading(false);
-      });
+      } else {
+        console.error(response);
+      }
+    } catch (error) {
+      console.error("Error sending POST request:", error);
+    }
   };
 
   const handlePasswordSubmit = (e) => {

@@ -2,7 +2,8 @@ import { useContext, useState } from "react";
 import "../assets/css/header.css";
 import { useConfig } from "../context/configContext";
 import axios from "axios";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ExpiryTime = () => {
   const { configuration, updateConfiguration } = useConfig();
   const [Time, setTime] = useState("");
@@ -79,17 +80,28 @@ const SendButton = () => {
     console.log(configuration);
 
     try {
-      let POST_URL = "http://localhost:8000/api/pastes/";
-      if (import.meta.env.PROD) POST_URL = import.meta.env.VITE_BASE_URL;
+      let POST_URL =
+        import.meta.env.VITE_BASE_URL + import.meta.env.VITE_SEND_PASTE;
       const response = await axios.post(POST_URL, configuration);
 
       if (response.status === 201) {
-        console.log(response);
+        console.log(response.data);
+        toast.success(`Promise resolved 👌 ${response.data.slug}`, {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
       } else {
         console.error(response);
+        toast.error("Promise rejected 🤯");
       }
     } catch (error) {
       console.error("Error sending POST request:", error);
+      toast.error("Promise rejected 🤯");
     }
   };
 
@@ -106,7 +118,19 @@ export const Header = () => {
         <ExpiryTime></ExpiryTime>
         <DocFormat></DocFormat>
         <PasswordInput></PasswordInput>
-        <SendButton></SendButton>
+        <SendButton />
+        <ToastContainer
+          position="top-right"
+          autoClose={false}
+          limit={1}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          theme="dark"
+          transition:Bounce
+        />
       </div>
     </>
   );
