@@ -5,7 +5,7 @@ import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useConfig } from "../context/configContext";
 
-const PlaintextRenderer = ({ text }) => {
+export const PlaintextRenderer = ({ text }) => {
   return (
     <SyntaxHighlighter language="plaintext" style={docco}>
       {text}
@@ -13,7 +13,7 @@ const PlaintextRenderer = ({ text }) => {
   );
 };
 
-const CodeRenderer = ({ code }) => {
+export const CodeRenderer = ({ code }) => {
   return (
     <SyntaxHighlighter language="javascript" style={docco}>
       {code}

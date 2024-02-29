@@ -90,7 +90,7 @@ const SendButton = () => {
           position: "top-right",
           autoClose: false,
           hideProgressBar: true,
-          closeOnClick: true,
+          closeOnClick: false,
           pauseOnHover: true,
           draggable: true,
           theme: "dark",

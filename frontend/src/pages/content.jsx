@@ -1,6 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import { PlaintextRenderer, CodeRenderer } from "./preview";
+
+function ExpireDate() {
+  const expiryDate = new Date("2024-02-25T14:58:37.110979Z");
+
+  const currentDate = new Date();
+
+  const timeDifference = expiryDate - currentDate;
+
+  const seconds = Math.floor((timeDifference / 1000) % 60);
+  const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+  const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return (
+    <>
+      <p>
+        This Document expires in {days}days {hours} hours{" "}
+      </p>
+    </>
+  );
+}
 export function ContentPage() {
   const [apiData, setApiData] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
@@ -18,7 +42,7 @@ export function ContentPage() {
     fetch(apiUrlCheck)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setApiData(data);
 
         if (data.password) {
@@ -41,7 +65,7 @@ export function ContentPage() {
       const response = await axios.post(apiUrl, { password: Password });
 
       if (response.status === 200) {
-        console.log(response);
+        // console.log(response);
         const data = response.data;
         setIsAuth(true);
         setLoading(false);
@@ -62,11 +86,21 @@ export function ContentPage() {
 
   return (
     <div>
-      <h1>API Response:</h1>
       {loading ? (
         <p>Loading...</p>
       ) : isAuth ? (
-        <pre>{JSON.stringify(apiData, null, 2)}</pre>
+        <>
+          <ExpireDate></ExpireDate>
+          {apiData.document_format === "Markdown" ? (
+            <Markdown rehypePlugins={[rehypeHighlight]}>
+              {apiData.text}
+            </Markdown>
+          ) : apiData.document_format === "Text" ? (
+            <PlaintextRenderer text={apiData.text} />
+          ) : (
+            <CodeRenderer code={apiData.text}></CodeRenderer>
+          )}
+        </>
       ) : (
         <div>
           <p>This content is password protected.</p>
