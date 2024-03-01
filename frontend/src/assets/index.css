@@ -1,4 +1,4 @@
-.container {
+/* .container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,4 +15,7 @@
 }
 .preview-container {
   padding: 0.1rem;
-}
+} */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import "../assets/css/header.css";
 import { useConfig } from "../context/configContext";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,9 +13,16 @@ const ExpiryTime = () => {
   };
 
   return (
-    <div>
-      <label htmlFor="Expire">Expire Time:</label>
-      <select id="Expire" value={Time} onChange={handleSelectChange}>
+    <div className="m-2 p-2 ">
+      <label htmlFor="Expire" className="mx-1">
+        Expire Time:
+      </label>
+      <select
+        id="Expire"
+        value={Time}
+        onChange={handleSelectChange}
+        className="text-primary border-secondary rounded  border-2"
+      >
         <option value="1d">1 Day</option>
         <option value="1w">1 Week</option>
         <option value="1m">1 Month</option>
@@ -34,9 +40,16 @@ const DocFormat = () => {
   };
 
   return (
-    <div>
-      <label htmlFor="doc">Document Format:</label>
-      <select id="doc" value={Format} onChange={handleSelectChange}>
+    <div className="m-2 p-2 ">
+      <label htmlFor="doc" className="mx-1 ">
+        Document Format:
+      </label>
+      <select
+        id="doc"
+        value={Format}
+        onChange={handleSelectChange}
+        className="text-primary border-secondary rounded  border-2"
+      >
         <option value="Markdown">Markdown</option>
         <option value="Text">Text</option>
         <option value="Code">Code</option>
@@ -60,15 +73,22 @@ const PasswordInput = () => {
   };
 
   return (
-    <div>
-      <label htmlFor="password">Password:</label>
+    <div className="m-2 p-2 ">
+      <label htmlFor="password" className="mx-1 text-base">
+        Password:
+      </label>
       <input
         type={showPassword ? "text" : "password"}
         id="password"
         value={password}
         onChange={handlePasswordChange}
+        className="text-primary "
       />
-      <button type="button" onClick={toggleShowPassword}>
+      <button
+        type="button"
+        onClick={toggleShowPassword}
+        className="mx-1 p-1 hover:shadow-sm  border-secondary rounded  border-2 hover:text-tertiary "
+      >
         {showPassword ? "Hide" : "Show"} Password
       </button>
     </div>
@@ -106,15 +126,20 @@ const SendButton = () => {
   };
 
   return (
-    <>
-      <button onClick={handleClick}>Send</button>
-    </>
+    <div className="m-2 p-2 ">
+      <button
+        onClick={handleClick}
+        className="p-1 hover:shadow-sm  border-secondary rounded  border-2 hover:text-tertiary"
+      >
+        Send
+      </button>
+    </div>
   );
 };
 export const Header = () => {
   return (
     <>
-      <div className="header">
+      <div className="flex  justify-between  mxl-2 px-2  text-secondary bg-primary">
         <ExpiryTime></ExpiryTime>
         <DocFormat></DocFormat>
         <PasswordInput></PasswordInput>

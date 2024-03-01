@@ -30,7 +30,7 @@ export const PreviewLoader = ({ markdown }) => {
     setPreviewFormat(configuration.document_format);
   }, [configuration.document_format]);
   return (
-    <>
+    <div className="prose">
       {/* <button
         onClick={() => {
           console.log(configuration.document_format);
@@ -47,6 +47,6 @@ export const PreviewLoader = ({ markdown }) => {
       ) : (
         <CodeRenderer code={configuration.text}></CodeRenderer>
       )}
-    </>
+    </div>
   );
 };
