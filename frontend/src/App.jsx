@@ -7,7 +7,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Index />} />
-        <Route path=":slug" element={<ContentPage />} />
+        <Route path="/:slug" element={<ContentPage />} />
       </Route>
     </Routes>
   );
