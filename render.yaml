@@ -1,8 +1,8 @@
 databases:
-  - name: paste_safe
+  - name: mysitedb
     plan: free
-    databaseName: Paste
-    user: user
+    databaseName: mysite
+    user: mysite
 
 services:
   - type: web
