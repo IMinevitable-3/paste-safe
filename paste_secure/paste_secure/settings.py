@@ -42,6 +42,7 @@ MIDDLEWARE = [
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://paste-safe.onrender.com/",
 ]
 ROOT_URLCONF = "paste_secure.urls"
 
