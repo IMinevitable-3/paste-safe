@@ -68,26 +68,24 @@ WSGI_APPLICATION = "paste_secure.wsgi.application"
 # Database
 from environ import POSTGRES_PASS, POSTGRES_USER
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-# DATABASES = {
-#     "default": dj_database_url.config(
-#         # Replace this value with your local database's connection string.
-#         default=f"postgres://{POSTGRES_USER}:{POSTGRES_PASS}@dpg-cnhdqn779t8c73eprh8g-a/paste_ezaf",
-#         conn_max_age=600,
-#     )
-# }
-DATABASES = {
-    "default": dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default="postgresql://postgres:postgres@localhost:5432/paste_safe",
-        conn_max_age=600,
-    )
-}
+DATABASES = {}
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+else:
+
+    DATABASES = {
+        "default": dj_database_url.config(
+            # Replace this value with your local database's connection string.
+            default="postgresql://postgres:postgres@localhost:5432/paste_safe",
+            conn_max_age=600,
+        )
+    }
 
 # Password validation
 
