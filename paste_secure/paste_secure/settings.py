@@ -11,7 +11,7 @@ SECRET_KEY = SECRET_KEY
 
 DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["pasteatme.onrender.com"]
 
 
 INSTALLED_APPS = [
