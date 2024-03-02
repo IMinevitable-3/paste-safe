@@ -3,7 +3,7 @@
 set -o errexit
 
 # Specify Python version and use a virtual environment
-python3.8 -m venv venv
+python -m venv venv
 source venv/bin/activate
 
 # Install dependencies using poetry
